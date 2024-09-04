@@ -3,8 +3,8 @@
     "name": "AS and A-Level Mathematics",
     "short_name": "Mathematics",
     "type": "AS and A-Level",
-    "yearstart": 22,
-    "yearend": 22,
+    "yearstart": 9,
+    "yearend": 10,
     "info": {
         "duration": "1h 30m",
         "total_marks": 75,
@@ -26,7 +26,7 @@
         ]
     },
     "urldata": {
-        "url": "https://pastpapers.papacambridge.com/directories/CAIE/CAIE-pastpapers/upload/",
+        "url": "https://cie.michaeldasheep.com/9709/",
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
     }
 }

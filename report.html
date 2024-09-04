@@ -12,7 +12,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <style>
+        .btn-ms {
+            --bs-btn-font-weight: 600;
+            --bs-btn-color: var(--bs-white);
+            --bs-btn-bg: var(--bd-violet-bg);
+            --bs-btn-border-color: var(--bd-violet-bg);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: #{shade-color($bd-violet, 10%)};
+            --bs-btn-hover-border-color: #{shade-color($bd-violet, 10%)};
+            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+            --bs-btn-active-color: var(--bs-btn-hover-color);
+            --bs-btn-active-bg: #{shade-color($bd-violet, 20%)};
+            --bs-btn-active-border-color: #{shade-color($bd-violet, 20%)};
+        }
+    </style>
 </head>
 
 <body>
@@ -62,11 +76,11 @@
                                                     %}<i style="color: #0044ff"
                                                         class="fa-solid fa-snowman"></i>{%endif%}</span></td>
                                             <td>{{paper['variant']}}</td>
-                                            <td><span class="btn btn-{% if paper['papertype'] == 'ms'
-                                                    %}warning{%else%}info{%endif%}
+                                            <td><span class="btn btn-info
                                                     disabled">{{paper['papertype']}}</span></td>
-                                            <td><a class="btn btn-success" target="_blank"
-                                                    href="{{paper['filename']}}">Go</a>
+                                            <td><a class="btn btn-{% if paper['status'] == 'success' %}success{%elif paper['status'] == 'TODO'%}warning disabled{% else %}danger disabled{%endif%}"
+                                                    target="_blank" href="{{paper['filename']}}">{% if paper['status']
+                                                    == 'success' %}Go{%else%}Error{%endif%}</a>
                                             </td>
                                         </tr>
                                         {% endif %}
@@ -96,11 +110,11 @@
                                                     %}<i style="color: #0044ff"
                                                         class="fa-solid fa-snowman"></i>{%endif%}</span></td>
                                             <td>{{paper['variant']}}</td>
-                                            <td><span class="btn btn-{% if paper['papertype'] == 'ms'
-                                                    %}warning{%else%}info{%endif%}
-                                                    disabled">{{paper['papertype']}}</span></td>
-                                            <td><a class="btn btn-success" target="_blank"
-                                                    href="{{paper['filename']}}">Go</a>
+                                            <td><span class="btn disabled btn-ms" aria-disabled="true"
+                                                    style="user-select: none;">{{paper['papertype']}}</span></td>
+                                            <td><a class="btn btn-{% if paper['status'] == 'success' %}success{%elif paper['status'] == 'TODO'%}warning disabled{% else %}danger disabled{%endif%}"
+                                                    target="_blank" href="{{paper['filename']}}">{% if paper['status']
+                                                    == 'success' %}Go{%else%}Error{%endif%}</a>
                                             </td>
                                         </tr>
                                         {% endif %}
