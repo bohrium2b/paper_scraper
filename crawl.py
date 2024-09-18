@@ -9,10 +9,11 @@ from requests.exceptions import ConnectionError
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from rich.console import Console
 from rich.progress import Progress
+from shutil import copyfile, copytree
 
 
 jinjaenvironment = Environment(
-    loader=FileSystemLoader("."), autoescape=select_autoescape(["html", "xml"])
+    loader=FileSystemLoader("./templates/"), autoescape=select_autoescape(["html", "xml"])
 )
 
 
@@ -117,7 +118,7 @@ def initcrawl(formatraw: str, directory: str | None = None, resume=False):
                 paper["filename"] = paperurl
 
                 progress.update(task, advance=1)
-        except KeyboardInterrupt:
+        except Exception:
             print("\nError: Program interrupted, saving state and gracefully quitting.")
             savestate(papers, scrapeconfig, directory)
             return
@@ -170,6 +171,12 @@ def generate_report(
                 year_end=scrapeconfig["yearend"],
             )
         )
+    copyfile("templates/reader.html", f"{directory}/reader.html")
+    try:
+        copytree("templates/assets/", f"{directory}assets/")
+    except FileExistsError:
+        print("Assets already exists!")
+    
 
 
 def main():
