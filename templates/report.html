@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8">
+    <title>Download report for {{code}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .btn-ms {
+            --bs-btn-font-weight: 600;
+            --bs-btn-color: var(--bs-white);
+            --bs-btn-bg: var(--bd-violet-bg);
+            --bs-btn-border-color: var(--bd-violet-bg);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: #{shade-color($bd-violet, 10%)};
+            --bs-btn-hover-border-color: #{shade-color($bd-violet, 10%)};
+            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+            --bs-btn-active-color: var(--bs-btn-hover-color);
+            --bs-btn-active-bg: #{shade-color($bd-violet, 20%)};
+            --bs-btn-active-border-color: #{shade-color($bd-violet, 20%)};
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <h1>Download Report for {{code}}</h1>
+        <div class="row">
+            <p>Successfully downloaded {{num_successful}} papers. Failed to download {{num_failed}} papers.</p>
+        </div>
+        <div class="accordion" id="componentsAccordion">
+            {% for component in components %}
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse{{component['paper']}}" aria-expanded="true"
+                        aria-controls="collapse{{component['paper']}}">
+                        Paper {{component['paper']}}: {{component['name']}}
+                    </button>
+                </h2>
+                <div id="collapse{{component['paper']}}" class="accordion-collapse collapse show"
+                    data-bs-parent="#componentsAccordion">
+                    <div class="accordion-body">
+                        <div>
+                            Time: {{component['duration']}} <br />
+                            Total marks: {{component['total_marks']}}
+                        </div>
+                        <div class="row">
+                            <div class="col gx-1">
+                                <table class="table table-striped table-hover container-fluid col gx-1"
+                                    style="width: 90%">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Year</th>
+                                            <th scope="col">Season</th>
+                                            <th scope="col">Variant</th>
+                                            <th scope="col">Paper type</th>
+                                            <th scope="col">Link</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for paper in component['papers'] %}
+                                        {% if paper['papertype'] == "qp" %}
+                                        <tr>
+                                            <td>{{paper['year']}}</td>
+                                            <td><span class="emojiraw">{% if paper['season'] == "s" %}<i
+                                                        style="color: #ffc107;" class="fa-solid fa-sun"></i>{% else
+                                                    %}<i style="color: #0044ff"
+                                                        class="fa-solid fa-snowman"></i>{%endif%}</span></td>
+                                            <td>{{paper['variant']}}</td>
+                                            <td><span class="btn btn-info
+                                                    disabled">{{paper['papertype']}}</span></td>
+                                            <td><a class="btn btn-{% if paper['status'] == 'success' or paper['filename'] %}success{%elif paper['status'] == 'TODO'%}warning disabled{% else %}danger disabled{%endif%}"
+                                                    target="_blank" href="reader.html#papers/{{paper['filename']}}">{% if paper['status']
+                                                    == 'success' or paper['filename'] %}Go{%else%}Error{%endif%}</a>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col gx-1">
+                                <table class="table table-striped table-hover container-fluid col gx-1"
+                                    style="width: 90%">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Year</th>
+                                            <th scope="col">Season</th>
+                                            <th scope="col">Variant</th>
+                                            <th scope="col">Paper type</th>
+                                            <th scope="col">Link</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for paper in component['papers'] %}
+                                        {% if paper['papertype'] == "ms" %}
+                                        <tr>
+                                            <td>{{paper['year']}}</td>
+                                            <td><span class="emojiraw">{% if paper['season'] == "s" %}<i
+                                                        style="color: #ffc107;" class="fa-solid fa-sun"></i>{% else
+                                                    %}<i style="color: #0044ff"
+                                                        class="fa-solid fa-snowman"></i>{%endif%}</span></td>
+                                            <td>{{paper['variant']}}</td>
+                                            <td><span class="btn disabled btn-ms" aria-disabled="true"
+                                                    style="user-select: none;">{{paper['papertype']}}</span></td>
+                                            <td><a class="btn btn-{% if paper['status'] == 'success' or paper['filename'] %}success{%elif paper['status'] == 'TODO'%}warning disabled{% else %}danger disabled{%endif%}"
+                                                    target="_blank" href="reader.html#papers/{{paper['filename']}}">{% if paper['status']
+                                                    == 'success' or paper['filename'] %}Go{%else%}Error{%endif%}</a>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
