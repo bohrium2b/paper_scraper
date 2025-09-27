@@ -87,6 +87,12 @@ def initcrawl(formatraw: str, directory: str | None = None, resume=False):
                     progress.console.log("Already downloaded " + paperurl + "!")
                     progress.update(task)
                     continue
+                if os.path.exists(f"{directory}/{paperurl}"):
+                    progress.console.log(f"File {paperurl} already exists!")
+                    paper["status"] = "success"
+                    paper["filename"] = paperurl
+                    progress.update(task, advance=1)
+                    continue
                 try:
                     response = get(f"{url}{paperurl}", headers={"User-Agent": useragent}, timeout=15)
                 except ConnectionError:
@@ -107,10 +113,7 @@ def initcrawl(formatraw: str, directory: str | None = None, resume=False):
                     paper["filename"] = None
                     progress.update(task, advance=1)
                     continue
-                if os.path.exists(f"{directory}/{paperurl}"):
-                    progress.console.log(f"File {paperurl} already exists!")
-                    progress.update(task, advance=1)
-                    continue
+                
                 with open(f"{directory}/{paperurl}", "wb") as file:
                     file.write(response.content)
                 progress.console.log(f"Downloaded {paperurl}!")
