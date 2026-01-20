@@ -113,7 +113,7 @@
                                             <td><span class="btn disabled btn-ms" aria-disabled="true"
                                                     style="user-select: none;">{{paper['papertype']}}</span></td>
                                             <td><a class="btn btn-{% if paper['status'] == 'success' or paper['filename'] %}success{%elif paper['status'] == 'TODO'%}warning disabled{% else %}danger disabled{%endif%}"
-                                                    target="_blank" href="reader.html#papers/{{paper['filename']}}">{% if paper['status']
+                                                    target="_blank" href="reader.html#/papers/{{paper['filename']}}">{% if paper['status']
                                                     == 'success' or paper['filename'] %}Go{%else%}Error{%endif%}</a>
                                             </td>
                                         </tr>

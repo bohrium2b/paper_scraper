@@ -121,7 +121,7 @@ def initcrawl(formatraw: str, directory: str | None = None, resume=False):
                 paper["filename"] = paperurl
 
                 progress.update(task, advance=1)
-        except Exception:
+        except TimeoutError:
             print("\nError: Program interrupted, saving state and gracefully quitting.")
             savestate(papers, scrapeconfig, directory)
             return
@@ -174,7 +174,7 @@ def generate_report(
                 year_end=scrapeconfig["yearend"],
             )
         )
-    copyfile("templates/reader.html", f"{directory}/reader.html")
+    copyfile("templates/index.html", f"{directory}/index.html")
     try:
         copytree("templates/assets/", f"{directory}assets/")
     except FileExistsError:

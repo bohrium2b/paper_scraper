@@ -22,6 +22,13 @@
                 "duration": "1h 30m",
                 "total_marks": 75,
                 "paper": 2
+            },
+            {
+              "name": "A2 Structured",
+              "code": 9702,
+              "duration": "1h 30m",
+              "total_marks": 75,
+              "paper": 4
             }
         ]
     },
